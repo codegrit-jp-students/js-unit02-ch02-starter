@@ -32,9 +32,9 @@ function handleClick(e) {
 
 function getData() {
   fetchData().then(function (value) {
-    console.log(Promise.resolve);
+    return Promise.resolve(value);
   }).catch(function (error) {
-    console.log(Promise.reject);
+    return Promise.reject(error);
   });  
   /* 
     fetchDataを呼び出して、戻ってきたデータのsuccessの値を元に
