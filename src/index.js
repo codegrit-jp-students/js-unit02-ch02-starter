@@ -17,49 +17,63 @@ const propertyData = {
 function handleClick(e) {
   e.preventDefault();
   const mainEl = document.getElementById('main');
-  getData().then(function (value) {
-    mainEl.innerHTML = propertyData;
-  }).catch(function (error) {
+
+  return getData().then((outputData) => {
+    outputData(propertyData);
+    mainEl.innerHTML = `
+    <p>${propertyData.propertyName}</p>
+    <p>${propertyData.propertyType}</p>
+    <p>${propertyData.cancelPolicy}</p>
+    <p>${propertyData.roomNum}</p>
+    <p>${propertyData.bathroomNum}</p>
+    <p>${propertyData.priceInDollars}</p>
+    <p>${propertyData.host.firstName}</p>
+    `
+  })
+  .catch((err) => {
     mainEl.innerHTML = 'データの取得に失敗しました。';
   }); 
+}
   /* 
     getDataを呼び出して、mainEl.innerHTMLを利用して、結果を出力します。
     getDataを呼び出す。
     物件データが戻ったらそのデータを表示する。
     エラーがあれば、エラーメッセージを表示する。
   */
-}
 
-function getData() {
-  fetchData().then(function (value) {
-    return Promise.resolve(value);
-  }).catch(function (error) {
-    return Promise.reject(error);
-  });  
+
+// function getData() {
+//   fetchData().then(function (value) {
+//     return Promise.resolve(value);
+//   }).catch(function (error) {
+//     return Promise.reject(error);
+//   });  
+// }
   /* 
     fetchDataを呼び出して、戻ってきたデータのsuccessの値を元に
     成功なら、Promise.resolveで物件データを返す。
     失敗なら、Promise.rejectでエラーメッセージを返す。
   */
-}
 
-function fetchData() {
-  return new Promise(function (resolve, reject) {
-    setTimeout(function () {
-      const percentage = _.random(0,100);
-      if (percentage > 20) {
-        resolve({
-          success: true,
-          propertyData: propertyData
-        });
-      } else {
-        reject({
-          success: false,
-          message: 'データの取得に失敗しました。' 
-        });
-      }
-    }, 1000);
-  });
+
+// function fetchData() {
+//   return new Promise(function (resolve, reject) {
+//     setTimeout(function () {
+//       const percentage = _.random(0,100);
+//       if (percentage > 20) {
+//         resolve({
+//           success: true,
+//           propertyData: propertyData
+//         });
+//       } else {
+//         reject({
+//           success: false,
+//           message: 'データの取得に失敗しました。' 
+//         });
+//       }
+//     }, 1000);
+//   });
+// }
   /* 
     fetchDataはPromiseオブジェクトを返す。
     setTimeoutを利用して、1秒間待ってから結果を返す。
@@ -67,7 +81,7 @@ function fetchData() {
     成功の場合、{ success: true, propertyData: propertyData }が返る。
     エラーの場合、{ success: false, message: 'データの取得に失敗しました。' }が返る。
   */
-}
+
 
 {
   const button1 = document.getElementById('button1');
