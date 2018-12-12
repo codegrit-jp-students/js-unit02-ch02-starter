@@ -31,7 +31,7 @@ function handleClick(e) {
     `
   })
   .catch((err) => {
-    mainEl.innerHTML = 'データの取得に失敗しました。';
+    mainEl.innerHTML = `${Promise.reject(err)}`;
   }); 
 }
   /* 
@@ -42,13 +42,13 @@ function handleClick(e) {
   */
 
 
-// function getData() {
-//   fetchData().then(function (value) {
-//     return Promise.resolve(value);
-//   }).catch(function (error) {
-//     return Promise.reject(error);
-//   });  
-// }
+function getData() {
+  return fetchData().then((value) => {
+    Promise.resolve(value);
+  }).catch((error) => {
+    Promise.reject(error);
+  });  
+}
   /* 
     fetchDataを呼び出して、戻ってきたデータのsuccessの値を元に
     成功なら、Promise.resolveで物件データを返す。
@@ -56,24 +56,24 @@ function handleClick(e) {
   */
 
 
-// function fetchData() {
-//   return new Promise(function (resolve, reject) {
-//     setTimeout(function () {
-//       const percentage = _.random(0,100);
-//       if (percentage > 20) {
-//         resolve({
-//           success: true,
-//           propertyData: propertyData
-//         });
-//       } else {
-//         reject({
-//           success: false,
-//           message: 'データの取得に失敗しました。' 
-//         });
-//       }
-//     }, 1000);
-//   });
-// }
+function fetchData() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const percentage = _.random(0,100);
+      if (percentage > 20) {
+        resolve({
+          success: true,
+          propertyData: propertyData
+        });
+      } else {
+        reject({
+          success: false,
+          message: 'データの取得に失敗しました。' 
+        });
+      }
+    }, 1000);
+  });
+}
   /* 
     fetchDataはPromiseオブジェクトを返す。
     setTimeoutを利用して、1秒間待ってから結果を返す。
@@ -86,5 +86,5 @@ function handleClick(e) {
 {
   const button1 = document.getElementById('button1');
   button1.addEventListener("click", handleClick);
-  console.log('ready');
 }
+
