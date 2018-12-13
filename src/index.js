@@ -18,16 +18,16 @@ function handleClick(e) {
   e.preventDefault();
   const mainEl = document.getElementById('main');
 
-  return getData().then((outputData) => {
-    outputData(propertyData);
+  return getData().then((res) => {
+    console.log(res);
     mainEl.innerHTML = `
-    <p>${propertyData.propertyName}</p>
-    <p>${propertyData.propertyType}</p>
-    <p>${propertyData.cancelPolicy}</p>
-    <p>${propertyData.roomNum}</p>
-    <p>${propertyData.bathroomNum}</p>
-    <p>${propertyData.priceInDollars}</p>
-    <p>${propertyData.host.firstName}</p>
+    <p>タイトル：${propertyData.propertyName}</p>
+    <p>タイプ：${propertyData.propertyType}</p>
+    <p>キャンセルポリシー：${propertyData.cancelPolicy}</p>
+    <p>部屋数：${propertyData.roomNum}</p>
+    <p>バスルームの数：${propertyData.bathroomNum}</p>
+    <p>料金：${propertyData.priceInDollars}</p>
+    <p>ホスト：${propertyData.host.firstName}</p>
     `
   })
   .catch((err) => {
@@ -41,13 +41,13 @@ function handleClick(e) {
     エラーがあれば、エラーメッセージを表示する。
   */
 
-
 function getData() {
-  return fetchData().then((value) => {
-    Promise.resolve(value);
-  }).catch((error) => {
-    Promise.reject(error);
-  });  
+  fetchData();
+  if (Promise.resolve.success) {
+    return Promise.resolve.propertyData;
+  } else {
+    return Promise.reject.message;
+  }
 }
   /* 
     fetchDataを呼び出して、戻ってきたデータのsuccessの値を元に
@@ -55,11 +55,10 @@ function getData() {
     失敗なら、Promise.rejectでエラーメッセージを返す。
   */
 
-
 function fetchData() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const percentage = _.random(0,100);
+      let percentage = _.random(0,100);
       if (percentage > 20) {
         resolve({
           success: true,
@@ -81,7 +80,6 @@ function fetchData() {
     成功の場合、{ success: true, propertyData: propertyData }が返る。
     エラーの場合、{ success: false, message: 'データの取得に失敗しました。' }が返る。
   */
-
 
 {
   const button1 = document.getElementById('button1');
