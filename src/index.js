@@ -18,20 +18,19 @@ function handleClick(e) {
   e.preventDefault();
   const mainEl = document.getElementById('main');
 
-  return getData().then((res) => {
-    console.log(res);
+  return getData().then((outputData) => {
     mainEl.innerHTML = `
-    <p>タイトル：${propertyData.propertyName}</p>
-    <p>タイプ：${propertyData.propertyType}</p>
-    <p>キャンセルポリシー：${propertyData.cancelPolicy}</p>
-    <p>部屋数：${propertyData.roomNum}</p>
-    <p>バスルームの数：${propertyData.bathroomNum}</p>
-    <p>料金：${propertyData.priceInDollars}</p>
-    <p>ホスト：${propertyData.host.firstName}</p>
-    `
+    <p>タイトル：${outputData.propertyName}</p>
+    <p>タイプ：${outputData.propertyType}</p>
+    <p>キャンセルポリシー：${outputData.cancelPolicy}</p>
+    <p>部屋数：${outputData.roomNum}</p>
+    <p>バスルームの数：${outputData.bathroomNum}</p>
+    <p>料金：${outputData.priceInDollars}</p>
+    <p>ホスト：${outputData.host.firstName}</p>
+    `;
   })
   .catch((err) => {
-    mainEl.innerHTML = `${Promise.reject(err)}`;
+    mainEl.innerHTML = `<p>${err.message}</p>`;
   }); 
 }
   /* 
@@ -42,12 +41,13 @@ function handleClick(e) {
   */
 
 function getData() {
-  fetchData();
-  if (Promise.resolve.success) {
-    return Promise.resolve.propertyData;
-  } else {
-    return Promise.reject.message;
-  }
+  return fetchData().then((res) => {
+    if (res.success) {
+      return Promise.resolve(res.propertyData);
+    } else {
+      return Promise.reject(res.message);
+    }
+  })
 }
   /* 
     fetchDataを呼び出して、戻ってきたデータのsuccessの値を元に
