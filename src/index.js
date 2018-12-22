@@ -58,8 +58,8 @@ function getData() {
 function fetchData() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      let percentage = _.random(0,100);
-      if (percentage > 20) {
+      const percentage = _.random(1, 5);
+      if (percentage <= 4) {
         resolve({
           success: true,
           propertyData: propertyData
