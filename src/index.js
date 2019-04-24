@@ -24,18 +24,18 @@ function handleClick(e) {
 }
 
 function getData() {
-  fetchData().then(
-    (resolve) => { // not defined
-      console.log(propertyData);
+  fetchData(resolve, reject).then(
+    (resolve) => {
+      console.log(resolve.propertyData);
     },
-    (rejected) => { // not defined
-      console.log({message: 'データの取得に失敗しました。'});
+    (reject) => {
+      console.log(reject.message);
     }
-  );
+  )
   /* 
     fetchDataを呼び出して、戻ってきたデータのsuccessの値を元にresolveで物件データまたは、rejectでエラーメッセージを返す。
   */
-}
+};
 
 function fetchData() {
   return new Promise((resolve, reject) => {
@@ -53,7 +53,7 @@ function fetchData() {
       }
     }, 1000)
   })
-};
+}
 
   /* 
     lodashのrandom()を使って、80%の確率で正しいデータを返し、20%の確率でエラーを返すようにしましょう。
