@@ -23,19 +23,24 @@ function handleClick(e) {
   */
 }
 
+/*
 function getData() {
   fetchData(resolve, reject).then(
-    (resolve) => {
-      console.log(resolve.propertyData);
-    },
-    (reject) => {
+    if (resolve.success === true) {
+      (resolve) => {
+        console.log(resolve.propertyData);
+      }
+    } else {
+      (reject) => {
       console.log(reject.message);
+      }
     }
   )
+}
+*/
   /* 
     fetchDataを呼び出して、戻ってきたデータのsuccessの値を元にresolveで物件データまたは、rejectでエラーメッセージを返す。
   */
-};
 
 function fetchData() {
   return new Promise((resolve, reject) => {
