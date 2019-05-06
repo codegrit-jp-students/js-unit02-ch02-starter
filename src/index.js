@@ -18,26 +18,20 @@ function handleClick(e) {
   e.preventDefault();
   const mainEl = document.getElementById('main');
   mainEl.innerHTML = getData();
+}
   /* 
     getDataを呼び出して、mainEl.innerHTMLを利用して、結果を出力します。
   */
-}
 
-/*
 function getData() {
-  fetchData(resolve, reject).then(
+  fetchData(resolve, reject).then((resolve) => { // elseの部分があるから .then((resolve, reject) => ではない？
     if (resolve.success === true) {
-      (resolve) => {
-        console.log(resolve.propertyData);
-      }
+      return resolve.propertyData;
     } else {
-      (reject) => {
-      console.log(reject.message);
-      }
+      return reject.message;
     }
-  )
+  })
 }
-*/
   /* 
     fetchDataを呼び出して、戻ってきたデータのsuccessの値を元にresolveで物件データまたは、rejectでエラーメッセージを返す。
   */
@@ -59,7 +53,6 @@ function fetchData() {
     }, 1000)
   })
 }
-
   /* 
     lodashのrandom()を使って、80%の確率で正しいデータを返し、20%の確率でエラーを返すようにしましょう。
     またsetTimeoutを利用して、1秒待ってから結果を得るようにします。
