@@ -32,7 +32,7 @@ function handleClick(e) {
     Promise.resolve(desc.mainEl.innerHTML)
   })
   .catch((error) => {
-    Promise.reject(error.message)
+    Promise.reject(error.message.innerHTML)
   })
 }
   /* 
