@@ -17,18 +17,34 @@ const propertyData = {
 function handleClick(e) {
   e.preventDefault();
   const mainEl = document.getElementById('main');
-  mainEl.innerHTML = getData();
+  mainEl.innerHTML = `
+  <p>宿泊施設名: ${propertyData.propertyName}</p>
+  <p>宿泊施設タイプ: ${propertyData.propertyType}</p>
+  <p>キャンセルポリシー: ${propertyData.cancelPolicy}</p>
+  <p>部屋数: ${propertyData.roomNum}</p>
+  <p>バスルーム数: ${propertyData.bathroomNum}</p>
+  <p>価格 (USD): ${propertyData.priceInDollars}</p>
+  <p>ホストID: ${propertyData.host.id}</p>
+  <p>ホスト名: ${propertyData.host.firstName}</p>
+  `
+  getData()
+  .then((desc) => {
+    Promise.resolve(desc.mainEl.innerHTML)
+  })
+  .catch((error) => {
+    Promise.reject(error.message)
+  })
 }
   /* 
     getDataを呼び出して、mainEl.innerHTMLを利用して、結果を出力します。
   */
 
 function getData() {
-  fetchData(resolve, reject).then((resolve) => { // elseの部分があるから .then((resolve, reject) => ではない？
-    if (resolve.success === true) {
-      return resolve.propertyData;
+  fetchData().then((res) => { // elseの部分があるから .then((resolve, reject) => ではない？
+    if (res.success) {
+      return Promise.resolve(res.propertyData); // ここでのresolveはメソッド
     } else {
-      return reject.message;
+      return Promise.reject(res.message);
     }
   })
 }
@@ -41,7 +57,7 @@ function fetchData() {
     setTimeout(() => {
       const randomNum = _.random(1, 5);
       if (randomNum <= 4) {
-        resolve(
+        resolve( // これはメソッド、引数ではない
           Object.assign({}, {success: true}, {propertyData})
         );
       } else {
