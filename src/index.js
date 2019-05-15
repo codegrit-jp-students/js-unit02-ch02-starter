@@ -18,8 +18,8 @@ function handleClick(e) { // よくあるパターン
   e.preventDefault(); // 一番最初に書く
   const mainEl = document.getElementById('main');
   getData().then((desc) => { // returnを書く（成功も失敗も返す） → returnを書くと32行目以降がunreachableになるのはなぜか？
-    // ↓ 引数はどこに書けばいいのか？desc.mainEl.innerHTMLだとエラーが出てしまう
-    mainEl.innerHTML = ` 
+    // 引数descはどこに書けばいいのかがわからない
+    mainEl.innerHTML = `
     <p>宿泊施設名: ${propertyData.propertyName}</p>
     <p>宿泊施設タイプ: ${propertyData.propertyType}</p>
     <p>キャンセルポリシー: ${propertyData.cancelPolicy}</p>
