@@ -14,25 +14,26 @@ const propertyData = {
   }
 }
 
-function handleClick(e) {
-  e.preventDefault();
+function handleClick(e) { // よくあるパターン
+  e.preventDefault(); // 一番最初に書く
   const mainEl = document.getElementById('main');
-  mainEl.innerHTML = `
-  <p>宿泊施設名: ${propertyData.propertyName}</p>
-  <p>宿泊施設タイプ: ${propertyData.propertyType}</p>
-  <p>キャンセルポリシー: ${propertyData.cancelPolicy}</p>
-  <p>部屋数: ${propertyData.roomNum}</p>
-  <p>バスルーム数: ${propertyData.bathroomNum}</p>
-  <p>価格 (USD): ${propertyData.priceInDollars}</p>
-  <p>ホストID: ${propertyData.host.id}</p>
-  <p>ホスト名: ${propertyData.host.firstName}</p>
-  `
-  getData()
-  .then((desc) => {
-    Promise.resolve(desc.mainEl.innerHTML)
+  getData().then((desc) => { // returnを書く（成功も失敗も返す） → returnを書くと32行目以降がunreachableになるのはなぜか？
+    // ↓ 引数はどこに書けばいいのか？desc.mainEl.innerHTMLだとエラーが出てしまう
+    mainEl.innerHTML = ` 
+    <p>宿泊施設名: ${propertyData.propertyName}</p>
+    <p>宿泊施設タイプ: ${propertyData.propertyType}</p>
+    <p>キャンセルポリシー: ${propertyData.cancelPolicy}</p>
+    <p>部屋数: ${propertyData.roomNum}</p>
+    <p>バスルーム数: ${propertyData.bathroomNum}</p>
+    <p>価格 (USD): ${propertyData.priceInDollars}</p>
+    <p>ホストID: ${propertyData.host.id}</p>
+    <p>ホスト名: ${propertyData.host.firstName}</p>
+    `
   })
-  .catch((error) => {
-    Promise.reject(error.message.innerHTML)
+  return getData().catch((error) => {
+    mainEl.innerHTML = `
+    <p>${error.message}</p>
+    `
   })
 }
   /* 
@@ -40,7 +41,7 @@ function handleClick(e) {
   */
 
 function getData() {
-  fetchData().then((res) => { // elseの部分があるから .then((resolve, reject) => ではない？
+  return fetchData().then((res) => { // elseの部分があるから .then((resolve, reject) => ではない？
     if (res.success) {
       return Promise.resolve(res.propertyData); // ここでのresolveはメソッド
     } else {
