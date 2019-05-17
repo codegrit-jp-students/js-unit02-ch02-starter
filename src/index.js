@@ -17,20 +17,19 @@ const propertyData = {
 function handleClick(e) { // よくあるパターン
   e.preventDefault(); // 一番最初に書く
   const mainEl = document.getElementById('main');
-  getData().then((desc) => { // returnを書く（成功も失敗も返す） → returnを書くと32行目以降がunreachableになるのはなぜか？
-    // 引数descはどこに書けばいいのかがわからない
+  return getData().then((desc) => { // returnを書く（成功も失敗も返す）
     mainEl.innerHTML = `
-    <p>宿泊施設名: ${propertyData.propertyName}</p>
-    <p>宿泊施設タイプ: ${propertyData.propertyType}</p>
-    <p>キャンセルポリシー: ${propertyData.cancelPolicy}</p>
-    <p>部屋数: ${propertyData.roomNum}</p>
-    <p>バスルーム数: ${propertyData.bathroomNum}</p>
-    <p>価格 (USD): ${propertyData.priceInDollars}</p>
-    <p>ホストID: ${propertyData.host.id}</p>
-    <p>ホスト名: ${propertyData.host.firstName}</p>
+    <p>宿泊施設名: ${desc.propertyName}</p>
+    <p>宿泊施設タイプ: ${desc.propertyType}</p>
+    <p>キャンセルポリシー: ${desc.cancelPolicy}</p>
+    <p>部屋数: ${desc.roomNum}</p>
+    <p>バスルーム数: ${desc.bathroomNum}</p>
+    <p>価格 (USD): ${desc.priceInDollars}</p>
+    <p>ホストID: ${desc.host.id}</p>
+    <p>ホスト名: ${desc.host.firstName}</p>
     `
   })
-  return getData().catch((error) => {
+  .catch((error) => {
     mainEl.innerHTML = `
     <p>${error.message}</p>
     `
